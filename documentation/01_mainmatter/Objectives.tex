@@ -1,0 +1,94 @@
+\chapter{Classes}
+\label{chap:objectives}
+
+\section{\Large Actor}
+    Actor is the base class for both Snake and Hedgehog with the following attributes:
+    \begin{itemize}
+        \item name - name of the actor
+        \item color - color of the actor on the map
+        \item x, y - the current coordinates the actor is located on
+        \item alpha, beta - values that determine the actor's direction of moving
+        \item speed - the speed at which it moves through the map
+        \item turns - counter of how many turns the actor has been on the map for
+        \item period - after how many turns with no collisions the actor changes his direction
+        \item parents - list of the actor's parents
+        \item life\_stage: every actor starts as a baby, then becomes an adult until it is no longer alive
+    \end{itemize}
+    
+    When to actors collide they will change directions and depending on their type other events will take place.
+
+\section{\Large Snake}
+    Class derived from Actor for which we also have the length of its tail. If an actor is a point on a map, a snake will be a line on that map.
+    
+    
+    As all the actors do, snakes also have life stages as follows: 
+    \begin{itemize}
+        \item {baby - When the snake it's at the baby stage it is an egg, without tail, that does not move, but is an obstacle for the other participants. If at this stage some other actor is colliding with the egg, the actor will change direction, and the egg will do nothing.}
+        \item {adult - When the snake reaches its adult state (which happens when he is on the map for a fixed number of turns) will start to move on the map.}
+        \item {retired - When a snake retires it will leave the map and let the other actors continue the play without interacting with them in any form.}
+    \end{itemize}
+
+\section{\Large Hedgehog}
+    Class derived from Actor. It has the following life stages:
+    \begin{itemize}
+        \item {baby - When the hedgehog it's at the baby stage it is an egg, that does not move, but is an obstacle for the other hedgehogs and a power-up for the snakes. If at this stage some other hedgehog is colliding with the egg, the actor will change direction, and the egg will do nothing, but if a snake comes in contact with the hedgehog egg it will eat the egg and get an extra life.}
+        \item {adult - When the hedgehog reaches its adult state (which happens when he is on the map for a fixed number of turns) will start to move on the map.}
+        \item {retired - When a hedgehog retires it will leave the map and let the other actors continue the play without interacting with them in any form.}
+    \end{itemize}
+
+\section{\Large Collisions}
+    This is a list of events that happen when 2 actors collide depending on the type of actor and the stage of its life:
+    
+    \begin{itemize}
+        \item {
+            adult snake A collides with adult snake B:
+            \begin{itemize}
+                \item A hits B in the tail: 
+                \begin{itemize}
+                    \item if A's length is higher then half of B's length A eats B and gains +1 length
+                    \item otherwise B eats A and gains +1 length
+                \end{itemize}
+                
+                \item A hits B in the head:
+                \begin{itemize}
+                    \item if A's length is lower then half of B's length B eats A and gains +1 length
+                    \item if A's length is higher then one and a half of B's length A eats B and gains +1 length
+                    \item otherwise A and B create a baby snake and remain alive
+                \end{itemize}
+            \end{itemize}
+        }
+        
+        \item {
+            adult hedgehog A collides with adult snake B:
+            \begin{itemize}
+                \item if B has at least one extra life he loses an extra life
+                
+                \item if B has no extra life B changes his life\_state in retired and will no longer appear on the map
+            \end{itemize}
+        }
+        
+    \end{itemize}
+
+\section{\Large Environment}
+    Environment is the base class for Sandbox with the following attributes:
+    \begin{itemize}
+        \item name - the name of the map
+        \item h, w - dimensions of the map
+        \item actors - list of all the actors in the environment
+        \item background - background color of the map
+        \item seconds\_per\_turn - how many seconds each turn will take
+        \item running - True when the environment is active, False otherwise
+    \end{itemize}
+
+\section{\Large Sandbox}
+    Class derived from Environment. If Environment will contain actors, Sandbox will contain just snakes and hedgehogs.
+    % \begin{itemize}
+    %     \item {}
+    % \end{itemize}
+
+\section{\Large Render}
+    Rendering dedicated class. Each Render object will have one Environment that will be rendered by it on each turn.
+    % \begin{itemize}
+    %     \item {}
+    % \end{itemize}
+
