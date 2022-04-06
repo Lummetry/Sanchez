@@ -19,6 +19,7 @@ class Render:
     self._running = True
 
     while self._running:
+      print('Iteration on Render loop')
       curr_map = self.environment.get_map()
       if curr_map is not None:
         cv.imshow(self.window_name, self.environment.get_map())
@@ -27,4 +28,5 @@ class Render:
           self.stop()
 
     cv.destroyAllWindows()
+    # self.environment.stop()
 

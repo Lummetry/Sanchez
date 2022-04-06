@@ -54,10 +54,12 @@ class Environment:
 
   def start(self, turn_limit=None):
     self._update_map()
+    print(f'Turn limit is {turn_limit}')
 
     self.running = True
     turn_count = 0
     while self.running and (turn_limit is None or turn_count < turn_limit):
+      print('Iteration on Environment loop')
       self._reset_map()
 
       for actor in self.actors:
